@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "euromilhoes"
+version = "0.1.0"
+description = "Time Series data scraping and analysis for the winners of the Euromilhões lottery"
+authors = ["Fernando Abreu <49952773+nandoabreu@users.noreply.github.com>"]
+license = "GPL-3.0"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.9,<3.13"
+prettyconf = "^2.2.1"
+pandas = "^2.1.1"
+matplotlib = "^3.8.0"
+seaborn = "^0.13.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.2"
+requests = "^2.31.0"
+beautifulsoup4 = "^4.12.2"
+dateparser = "^1.1.8"
+numpy = "^1.26.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
