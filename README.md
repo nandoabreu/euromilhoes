@@ -1,2 +1,2 @@
 # euromilhoes
-Time Series data scraping and analysis for the winners of the Euromilhões lottery
+Time Series data analysis exercise for the Euromilhões lottery bids
