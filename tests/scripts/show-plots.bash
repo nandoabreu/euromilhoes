@@ -8,7 +8,7 @@ while true; do
 
   if [ -n "$upd" ] && [ "$upd" != "$prev" ]; then
     prev=$upd
-    xdg-open "$F" &
+    eog "$F" &
     echo plot show updated
   fi
 
