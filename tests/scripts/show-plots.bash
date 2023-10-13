@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-D=/home/repos/euromilhoes/data
+D=/home/repos/euromilhoes/docs
 
 prev=
 while true; do
