@@ -28,7 +28,7 @@ def plot(df: pd.DataFrame, area: dict, colors: iter = None, save_to: str = None)
         ax = plt.subplot(gs[i, 0])
         p = sns.barplot(data=data, x='date', y='bids', ax=ax, legend=False, palette='pastel', hue='date')
 
-        p.set_ylim(5_000_000, 40_000_000)
+        p.set_ylim(7_500_000, 37_500_000)
         p.yaxis.set_major_formatter(FuncFormatter(lambda x, pos: f'{x/1e6:.0f}M'))
         p.axhline(data.bids.mean(), color='red', linestyle='--')
 
