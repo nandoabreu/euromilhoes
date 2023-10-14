@@ -12,8 +12,6 @@ target_raw_directory: str = 'data/raw'
 regular_pause_seconds: float = 3
 pause_every_n_requests: int = 15
 
-makedirs(target_raw_directory, exist_ok=True)
-
 
 class TLSAdapter(requests.adapters.HTTPAdapter):
     def init_poolmanager(self, *args, **kwargs):
@@ -26,43 +24,49 @@ class TLSAdapter(requests.adapters.HTTPAdapter):
         return super(TLSAdapter, self).init_poolmanager(*args, **kwargs)
 
 
-responses_size = 0
-print(f'Start data extraction from {source_url}', flush=True)
-print(f'Raw data files will be stored in {target_raw_directory}\n')
+def run():
+    print(f'Start data extraction from {source_url}', flush=True)
+    print(f'Raw data files will be stored in {target_raw_directory}\n')
+    makedirs(target_raw_directory, exist_ok=True)
 
-for current_draw in range(int(oldest_draw), int(newest_draw) + 1):
-    current_draw = f'{current_draw:.1f}'
-    raw_storage_file = f'{target_raw_directory}/draw-{float(current_draw):07.1f}.html'
-    print(f'Scrap draw ref. {current_draw} and store in {raw_storage_file}')
+    responses_size = 0
+    for current_draw in range(int(oldest_draw), int(newest_draw) + 1):
+        current_draw = f'{current_draw:.1f}'
+        raw_storage_file = f'{target_raw_directory}/draw-{float(current_draw):07.1f}.html'
+        print(f'Scrap draw ref. {current_draw} and store in {raw_storage_file}')
 
-    if not float(current_draw) % pause_every_n_requests:
-        sleep(regular_pause_seconds)  # Prevent possible request flood
+        if not float(current_draw) % pause_every_n_requests:
+            sleep(regular_pause_seconds)  # Prevent possible request flood
 
-    session = requests.session()
-    session.mount('https://', TLSAdapter())
-    post_data = dict(selectContest=current_draw, Consultar='Consultar')
-    response = session.post(source_url, verify=False, data=post_data)
-    responses_size += len(response.content)
+        session = requests.session()
+        session.mount('https://', TLSAdapter())
+        post_data = dict(selectContest=current_draw, Consultar='Consultar')
+        response = session.post(source_url, verify=False, data=post_data)
+        responses_size += len(response.content)
 
-    if response.status_code != 200:
-        print(f'Scrap request responded HTTP status {response.status_code}')
-        continue
+        if response.status_code != 200:
+            print(f'Scrap request responded HTTP status {response.status_code}')
+            continue
 
-    if 'Últimos Resultados' not in response.text:
-        print("Expected title not found in response")
-        continue
+        if 'Últimos Resultados' not in response.text:
+            print("Expected title not found in response")
+            continue
 
-    if 'class="dataInfo"' not in response.text:
-        print("Expected date container not found in response")
-        continue
+        if 'class="dataInfo"' not in response.text:
+            print("Expected date container not found in response")
+            continue
 
-    if 'Data do Sorteio' not in response.text:
-        print("Expected draw date label not found in response")
-        continue
+        if 'Data do Sorteio' not in response.text:
+            print("Expected draw date label not found in response")
+            continue
 
-    with open(raw_storage_file, 'wb') as f:
-        f.write(response.content)
+        with open(raw_storage_file, 'wb') as f:
+            f.write(response.content)
 
-    print('Raw data extracted and stored')
+        print('Raw data extracted and stored')
 
-print(f'Fetched data: {responses_size} bytes')
+    print(f'Fetched data: {responses_size} bytes')
+
+
+if __name__ == '__main__':
+    run()
