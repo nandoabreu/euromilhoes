@@ -2,7 +2,7 @@
 
 extract-raw-data:
 	@mkdir -p data/raw
-	@PYTHONUNBUFFERED=true poetry run python setup/extract-raw-data.py | tee data/raw/extraction.log
+	@PYTHONUNBUFFERED=true poetry run python setup/extract_raw_data.py | tee data/raw/extraction.log
 
 parse-and-store:
 	poetry run python setup/parse-and-store-data.py
