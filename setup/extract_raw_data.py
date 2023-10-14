@@ -7,7 +7,7 @@ import ssl
 import urllib3
 
 source_url: str = 'https://www.jogossantacasa.pt/web/SCCartazResult/euroMilhoes'
-oldest_draw, newest_draw = 373.0, 12994.0  # 373.0 is the first registered draw number; there are 1600 draws by Oct/2023
+oldest_draw, newest_draw = 373.0, 12994.0  # 373.0 is the first reference number in 1600+ draws (by Oct/2023)
 target_raw_directory: str = 'data/raw'
 regular_pause_seconds: float = 3
 pause_every_n_requests: int = 15
