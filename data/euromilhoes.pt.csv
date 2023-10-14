@@ -3,7 +3,7 @@
 # Between the first draw, 373.0 (Oct/2004), and the draw ID 12994.0 (Oct/2023), over 1600 draws happened
 # Since 2011-05-06 (draw 6721.0) Euromilhões has draws every Friday and Tuesday (before the date, only Fridays)
 # Run using Python v3.10 with libraries: requests, BeautifulSoup
-# Created by Fernando Abreu, at 2023-10-05 19:55:18 UTC
+# Created by Fernando Abreu, at 2023-10-14 16:42:31 UTC
 # Source of data: https://www.jogossantacasa.pt/web/SCCartazResult/euroMilhoes
 draw,date,bids,wins
 373.0,2004-10-08,3223623,0
