@@ -10,10 +10,10 @@ import numpy as np
 from bs4 import BeautifulSoup
 from dateparser import parse
 
-oldest_draw, newest_draw = 373.0, 12994.0  # 373.0 is the first registered draw number; there are 1600 draws by Oct/2023
-source_url = 'https://www.jogossantacasa.pt/web/SCCartazResult/euroMilhoes'
+from extract import source_url
+
+raw_data_directory = 'data/raw'
 target_filename_prefix = 'data/euromilhoes'
-target_raw_directory = 'data/raw'
 
 output_comments = [
     'Euromilhões data from each draw (top 3 prize count)',
@@ -26,23 +26,9 @@ output_comments = [
 ]
 output_headers = ['draw', 'date', 'wins']
 
-makedirs(target_raw_directory, exist_ok=True)
-
-
-class TLSAdapter(requests.adapters.HTTPAdapter):
-    def init_poolmanager(self, *args, **kwargs):
-        urllib3.disable_warnings()
-        ctx = ssl.create_default_context()
-        ctx.set_ciphers('DEFAULT@SECLEVEL=1')
-        ctx.check_hostname = False
-        ctx.verify_mode = ssl.CERT_OPTIONAL
-        kwargs['ssl_context'] = ctx
-        return super(TLSAdapter, self).init_poolmanager(*args, **kwargs)
-
-
-responses_size = 0
 fh_pt, fh_eu = None, None
-print(f'Start scrapping {source_url}')
+print(f'Data set will be stored in {target_filename_prefix}')
+print(f'Start data fetch, parse and store from {raw_data_directory}')
 
 for current_draw in range(int(oldest_draw), int(newest_draw) + 1):
     current_draw = f'{current_draw:.1f}'
@@ -50,21 +36,7 @@ for current_draw in range(int(oldest_draw), int(newest_draw) + 1):
 
     raw_storage_file = f'{target_raw_directory}/draw-{current_draw}.html'
 
-    data = dict(selectContest=current_draw, Consultar='Consultar')
-    session = requests.session()
-    session.mount('https://', TLSAdapter())
-    response = session.post(source_url, verify=False, data=data)
-
-    responses_size += len(response.content)
-
-    if response.status_code != 200:
-        print(f'Scrap request responded HTTP status {response.status_code}')
-        continue
-
     soup = BeautifulSoup(response.text, 'html.parser')
-    if "Últimos Resultados" not in str(soup.title):
-        print("Expected title not found in response")
-        continue
 
     # Find date of draw in page
     t = [c.text for c in soup.find_all('span', attrs={'class': 'dataInfo'})]
