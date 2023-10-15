@@ -11,7 +11,7 @@ def plot(df: pd.DataFrame, area: dict, save_to: str = None) -> None:
     area_code = list(area.keys())[0]
     area_name = area[area_code]
 
-    df['day_of_week'] = df.date.dt.day_name()
+    df['day_of_week'] = df.draw_date.dt.day_name()
 
     ranges = ['< 2M', '2-3M', '3-4M', '4-5M', '>=5M']
     df['bids_ranges'] = np.where(df.bids.lt(2_000_000), ranges[0], '')
@@ -32,7 +32,7 @@ def plot(df: pd.DataFrame, area: dict, save_to: str = None) -> None:
     p0 = sns.barplot(data=df, x='day_of_week', y='bids', estimator=sum, ax=axs[0], color='skyblue')
     p1 = sns.histplot(data=df, x='day_of_week', hue='bids_ranges', ax=axs[1], color='skyblue', multiple='dodge')
 
-    years = list(range(df.date.min().year, df.date.max().year + 1))
+    years = list(range(df.draw_date.min().year, df.draw_date.max().year + 1))
     p0.set(
         title=f'Total number of bids in {area_name}, (by draw day, {years[0]}-{years[-1]})',
         xlabel=None, ylabel='Bids counts'

@@ -12,10 +12,10 @@ def plot(df: pd.DataFrame, area: dict, colors: iter = None, save_to: str = None)
     area_code = list(area.keys())[0]
     area_name = area[area_code]
 
-    df['period'] = (df.date.dt.strftime('%m').astype(int) + 2) / months_in_period
+    df['period'] = (df.draw_date.dt.strftime('%m').astype(int) + 2) / months_in_period
     df['period'] = df['period'].astype(int)
 
-    years = sorted(list(range(df.date.max().year, df.date.min().year - 1, -1)), reverse=True)
+    years = sorted(list(range(df.draw_date.max().year, df.draw_date.min().year - 1, -1)), reverse=True)
     periods = sorted(df.period.unique().tolist(), reverse=False)
     fig, axs = plt.subplots(figsize=(9, 13), nrows=len(years), ncols=int(12 / months_in_period))  # 900x1300 px
 
@@ -26,7 +26,7 @@ def plot(df: pd.DataFrame, area: dict, colors: iter = None, save_to: str = None)
         # https://stackoverflow.com/questions/46173419/change-bar-color-according-to-hue-name/46174007#46174007
 
         for j, period in enumerate(periods):
-            data = df[(df.date.dt.year == year) & (df.period == period)]
+            data = df[(df.draw_date.dt.year == year) & (df.period == period)]
             p = sns.boxplot(
                 data=data, x='bids', hue='period', vert=False, ax=axs[i, j],
                 legend=False, palette=['C0'],

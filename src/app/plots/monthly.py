@@ -12,21 +12,21 @@ def plot(df: pd.DataFrame, area: dict, colors: iter = None, save_to: str = None)
     area_code = list(area.keys())[0]
     area_name = area[area_code]
 
-    years = list(range(df.date.min().year, df.date.max().year + 1))
+    years = list(range(df.draw_date.min().year, df.draw_date.max().year + 1))
     month_by_number = dict((i, _dt(1, i, 1).strftime('%b')) for i in range(1, 12+1))
 
     fig = plt.figure(figsize=(11, 11))
     gs = GridSpec(nrows=len(years), ncols=2, width_ratios=[2, 1])
 
     for i, year in enumerate(sorted(years, reverse=True)):
-        data = pd.DataFrame(df[df.date.dt.year == year].groupby(df.date.dt.month).bids.agg('sum'))
+        data = pd.DataFrame(df[df.draw_date.dt.year == year].groupby(df.draw_date.dt.month).bids.agg('sum'))
         data.rename(index=month_by_number, inplace=True)
 
         #
         # Set the bar plot on the left
 
         ax = plt.subplot(gs[i, 0])
-        p = sns.barplot(data=data, x='date', y='bids', ax=ax, legend=False, palette='pastel', hue='date')
+        p = sns.barplot(data=data, x='draw_date', y='bids', ax=ax, legend=False, palette='pastel', hue='draw_date')
 
         p.set_ylim(7_500_000, 37_500_000)
         p.yaxis.set_major_formatter(FuncFormatter(lambda x, pos: f'{x/1e6:.0f}M'))
@@ -34,8 +34,8 @@ def plot(df: pd.DataFrame, area: dict, colors: iter = None, save_to: str = None)
 
         p.text(0.015, 0.879, '{}: {} bids in {} draws'.format(
             year,
-            '{:.1f}M'.format(df[df.date.dt.year == year].bids.sum() / 1e6),
-            df[df.date.dt.year == year].count().iloc[0],
+            '{:.1f}M'.format(df[df.draw_date.dt.year == year].bids.sum() / 1e6),
+            df[df.draw_date.dt.year == year].count().iloc[0],
         ), fontsize=11, transform=p.transAxes, horizontalalignment='left')
 
         p.set(xlabel=None, ylabel=None)

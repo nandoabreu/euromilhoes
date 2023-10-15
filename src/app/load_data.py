@@ -13,15 +13,15 @@ def load_data(
 ) -> pd.DataFrame:
     df = pd.read_csv(cfg.DATA_SOURCE_FILE.format(area), comment='#')
 
-    df.date = pd.to_datetime(df.date)
-    df.sort_values(['draw', 'date'], ascending=True, inplace=True)
+    df.draw_date = pd.to_datetime(df.draw_date)
+    df.sort_values(['draw_seq', 'draw_date'], ascending=True, inplace=True)
 
     if since_date:
-        df = df[df.date >= since_date]
+        df = df[df.draw_date >= since_date]
     if until_date:
-        df = df[df.date <= until_date]
+        df = df[df.draw_date <= until_date]
 
-    if len(df.draw.unique()) != df.shape[0]:
+    if len(df.draw_seq.unique()) != df.shape[0]:
         df.drop_duplicates(keep='last', inplace=True)
 
     # df.set_index('draw', drop=True, inplace=True)

@@ -15,7 +15,7 @@ def plot(df: pd.DataFrame, area: dict, save_to: str = None) -> None:
     sns.axes_style('whitegrid')
     plt.subplots(figsize=(17, 3))  # 1700x300 px
 
-    p = sns.lineplot(x='date', y='bids', data=df)
+    p = sns.lineplot(x='draw_date', y='bids', data=df)
 
     p.xaxis.set_major_locator(mdates.MonthLocator(interval=1))
     p.xaxis.set_major_formatter(mdates.DateFormatter('%b, %Y'))
@@ -36,7 +36,7 @@ def plot(df: pd.DataFrame, area: dict, save_to: str = None) -> None:
     )
     leg.legendHandles[0].set_visible(False)  # Remove line from legend's first item
 
-    years = list(range(df.date.min().year, df.date.max().year + 1))
+    years = list(range(df.draw_date.min().year, df.draw_date.max().year + 1))
     p.set(title=f'Euromilhões bids in {area_name} (bids by day, {years[0]}-{years[-1]})', xlabel=None, ylabel='Bids')
     plt.gcf().text(.995, .015, _dt.utcnow().strftime('FRA, %F %T UTC'), fontsize=7, color='gray', ha='right')
 
