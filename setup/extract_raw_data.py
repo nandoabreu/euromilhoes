@@ -45,25 +45,25 @@ def run():
         responses_size += len(response.content)
 
         if response.status_code != 200:
-            print(f'Scrap request responded HTTP status {response.status_code}')
+            print(f'Scrap request responded HTTP status {response.status_code} for {current_draw}')
             continue
 
         if 'Últimos Resultados' not in response.text:
-            print("Expected title not found in response")
+            print(f'Expected title not found for {current_draw}')
             continue
 
         if 'class="dataInfo"' not in response.text:
-            print("Expected date container not found in response")
+            print(f'Expected date container not found for {current_draw}')
             continue
 
         if 'Data do Sorteio' not in response.text:
-            print("Expected draw date label not found in response")
+            print(f'Expected draw date label not found for {current_draw}')
             continue
 
         with open(raw_storage_file, 'wb') as f:
             f.write(response.content)
 
-        print('Raw data extracted and stored')
+        print(f'Raw data extracted and stored for {current_draw}')
 
     print(f'Fetched data: {responses_size} bytes')
 
