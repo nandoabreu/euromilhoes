@@ -44,6 +44,8 @@ A Makefile is available with recipes.
 make extract-raw-data && make parse-and-store
 ```
 
+_414.8 MB are fetched when scrapping all data; 1600+ html files will be stored from the extraction_
+
 ### Data load and Plots creation
 Data loading is part of the main Python module. The stored data
 is loaded and feeds the system to generate reportas and plots.
