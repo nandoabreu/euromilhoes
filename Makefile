@@ -5,7 +5,7 @@ extract-raw-data:
 	@PYTHONUNBUFFERED=true poetry run python setup/extract_raw_data.py | tee data/raw/extraction.log
 
 parse-and-store:
-	@poetry run python setup/parse-and-store-data.py
+	@PYTHONUNBUFFERED=true poetry run python setup/parse-and-store-data.py | tee data/raw/storage.log
 
 create-plots:
 	@PYTHONPATH=src poetry run python -m app
