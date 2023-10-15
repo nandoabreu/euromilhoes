@@ -3,7 +3,6 @@ from os.path import exists, getmtime
 from sys import modules
 
 import seaborn as sns
-from dateparser import parse
 
 from app import config as cfg
 from app.load_data import load_data
@@ -16,8 +15,8 @@ from app.plots import (
 )
 
 if __name__ == '__main__':
-    since_date = parse(cfg.DATA_SINCE_ISO_DATE)
-    until_date = parse(cfg.DATA_UNTIL_ISO_DATE)
+    since_date: str = cfg.DATA_SINCE_ISO_DATE
+    until_date = cfg.DATA_UNTIL_ISO_DATE
     df = load_data(area='pt', since_date=since_date, until_date=until_date)
 
     area_code = 'pt'
