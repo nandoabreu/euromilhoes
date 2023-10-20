@@ -26,14 +26,4 @@ def load_data(
     # df.set_index('draw', drop=True, inplace=True)
     df.reset_index(drop=True, inplace=True)
 
-    print('# Description of the data:')
-    print('{:30} {:>10}'.format('min draw_date', df.draw_date.min().strftime('%F')))
-    print('{:30} {:>10}'.format('max draw_date', df.draw_date.max().strftime('%F')))
-    print('{:30} {:>10}'.format('count draw_date', str(df.draw_date.count())))
-
-    t = set([i for i in df.groupby([df.draw_date.dt.year]).size()])
-    print('{:30} {:>10}'.format('count draws/year', '-'.join(sorted(map(str, t)))))
-    print('{:30} {:10.1f}'.format('count draws/week', sum(t) / len(t) / 54))
-    print('{:30} {:>10}'.format('sum bids', str(int(df.bids.sum()))))
-
     return df

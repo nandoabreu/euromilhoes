@@ -6,6 +6,7 @@ import seaborn as sns
 
 from app import config as cfg
 from app.load_data import load_data
+from app.analyse_data import describe
 # noinspection PyUnresolvedReferences
 from app.plots import (
     timeline,
@@ -18,6 +19,11 @@ if __name__ == '__main__':
     since_date: str = cfg.DATA_SINCE_ISO_DATE
     until_date = cfg.DATA_UNTIL_ISO_DATE
     df = load_data(area='pt', since_date=since_date, until_date=until_date)
+
+    # Describe the data
+    describe(df)
+
+    # Trigger plots creation or recriation
 
     area_code = 'pt'
     area = {area_code: 'Portugal'}
