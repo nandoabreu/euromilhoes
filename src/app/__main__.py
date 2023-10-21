@@ -39,11 +39,11 @@ if __name__ == '__main__':
         img_file = cfg.PLOT_DESTINATION_FILE.format(mname, area_code)
         csv_file= cfg.DATA_SOURCE_FILE.format(area_code)
 
-        if any([
-            not exists(img_file),
-            getmtime(csv_file) > getmtime(img_file),
-            getmtime(module.__file__) > getmtime(img_file),
-        ]):
+        if (
+            not exists(img_file)
+            or getmtime(csv_file) > getmtime(img_file)
+            or getmtime(module.__file__) > getmtime(img_file)
+        ):
             kwargs = dict(df=df, area=area, save_to=img_file)
             if 'colors' in module.plot.__code__.co_varnames:
                 kwargs['colors'] = year_colors
