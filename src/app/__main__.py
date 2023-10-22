@@ -13,6 +13,8 @@ from app.plots import (
     trimesters,
     monthly,
     draws,
+    timeline_unusual,
+    # timeline_acf,
 )
 
 if __name__ == '__main__':
@@ -31,18 +33,19 @@ if __name__ == '__main__':
     set2_palette = sns.color_palette('Set2', n_colors=15)
     year_colors = [set2_palette.as_hex()[i] for i in range(len(set2_palette))]
 
-    for module in [m for m in modules.values() if m and m]:
-        if not module.__name__.startswith('app.plots.'):
-            continue
+    data_modules = {m.__name__: m for m in modules.values() if m.__name__.startswith('app')}
+    data_loader = data_modules.pop('app.load_data')
 
-        mname = module.__name__.split('.')[-1]
+    for mname, module in [(n, m) for n, m in data_modules.items() if n.startswith('app.plots.')]:
+        mname = mname.split('.')[-1]
         img_file = cfg.PLOT_DESTINATION_FILE.format(mname, area_code)
-        csv_file= cfg.DATA_SOURCE_FILE.format(area_code)
+        csv_file = cfg.DATA_SOURCE_FILE.format(area_code)
 
         if (
             not exists(img_file)
             or getmtime(csv_file) > getmtime(img_file)
             or getmtime(module.__file__) > getmtime(img_file)
+            or (getmtime(data_loader.__file__) > getmtime(img_file))
         ):
             kwargs = dict(df=df, area=area, save_to=img_file)
             if 'colors' in module.plot.__code__.co_varnames:
