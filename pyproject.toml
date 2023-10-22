@@ -11,7 +11,10 @@ python = ">=3.9,<3.13"
 prettyconf = "^2.2.1"
 dateparser = "^1.1.8"
 tabulate = "^0.9.0"
+numpy = "^1.26.1"
 pandas = "^2.1.1"
+scipy = "^1.11.3"
+statsmodels = "^0.14.0"
 matplotlib = "^3.8.0"
 seaborn = "^0.13.0"
 
@@ -19,7 +22,6 @@ seaborn = "^0.13.0"
 pytest = "^7.4.2"
 requests = "^2.31.0"
 beautifulsoup4 = "^4.12.2"
-numpy = "^1.26.1"
 
 [build-system]
 requires = ["poetry-core"]
