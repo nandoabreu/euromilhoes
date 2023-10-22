@@ -21,12 +21,15 @@ as reported on our next chapter about the data overview.
 The following report and plot were generated from the data frame loaded from the CSV.
 As mentioned earlier, our study's data events happened between years 2018 and 2022.
 ```text
-| observation      |      value |
-|------------------+------------|
-| min draw date    | 2018-01-02 |
-| max draw date    | 2022-12-30 |
-| count draw dates |        522 |
-| sum of all bids  | 1443202757 |
+| observation        |                value |
+|--------------------+----------------------|
+| min draw date      |           2018-01-02 |
+| max draw date      |           2022-12-30 |
+| count draw dates   |                  522 |
+| missing values     |                    0 |
+| sum of all bids    |           1443202757 |
+| min bids in a draw | 1039427 (2022-05-24) |
+| max bids in a draw | 6802872 (2018-02-23) |
 ```
 
 The plot shows the complete timeline,
@@ -42,6 +45,7 @@ The quartile numbers further refine this range to approximately 2.1 to 3.2 milli
 |--------------------+-----------|
 | count draws/year   |   104-105 |
 | average draws/week |       1.9 |
+| median of all bids | 2608674.5 |
 | Q1                 | 2147098.8 |
 | Q3                 | 3207317.5 |
 ```
