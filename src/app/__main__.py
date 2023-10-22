@@ -14,7 +14,7 @@ from app.plots import (
     monthly,
     draws,
     timeline_unusual,
-    # timeline_acf,
+    timeline_acf,
 )
 
 if __name__ == '__main__':
