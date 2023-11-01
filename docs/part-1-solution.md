@@ -17,6 +17,10 @@ will consider draws between 2018 and 2022.
 Within these years, draws occurred twice a week, having 522 draw events in the serie
 as reported on our next chapter about the data overview.
 
+Data was checked for inconsistencies and duplications. Once the data scrapping showed that some bids
+were added later and out of order, the scrapper program was tuned a few times in order to cover
+all data, preventing gaps and failures.
+
 ### Data overview
 The following report and plot were generated from the data frame loaded from the CSV.
 As mentioned earlier, our study's data events happened between years 2018 and 2022.
@@ -52,29 +56,24 @@ The quartile numbers further refine this range to approximately 2.1 to 3.2 milli
 ```
 <br />
 
-This can also be observed in the second plot below, which illustrates
-the distribution of bids in Portugal by draw:
+This can also be observed in the next plot, which illustrates bids distribution by draw day:
 
 ![euromilhoes-draws.pt.png](euromilhoes-draws.pt.png)
+
+The following plots show the QQ behaviors comparing months and trimesters of the years in the series.
+An initial observation can suggest that there are fewer bids or more stable bids numbers
+in second trimesters.
+
+![euromilhoes-monthly.pt.png](euromilhoes-monthly.pt.png)
+
+![euromilhoes-trimesters.pt.png](euromilhoes-trimesters.pt.png)
 
 ### Unusual values and search for outliers
 
 Some draw days show bids way out of QQ range and can be spotted on the next plot.
 The most extreme values are highlighted by annotations with the number of bids and draw date:
 
-![euromilhoes-timeline_unusual.pt.png
-timeline_unusual.py](euromilhoes-timeline_unusual.pt.png)
-
-The following plots show the QQ behaviors comparing trimesters and months of the years in the series.
-An initial observation can suggest that there are fewer bids or more stable bids numbers
-in second trimesters.
-
-![euromilhoes-trimesters.pt.png](euromilhoes-trimesters.pt.png)
-
-![euromilhoes-monthly.pt.png](euromilhoes-monthly.pt.png)
-
-Above all initial observations, seams like that the world's latest pandemic (and isolation)
-shifted the way Portuguese people bets in the Euromilhões.
+![euromilhoes-timeline_unusual.pt.png](euromilhoes-timeline_unusual.pt.png)
 
 ### Data autocorrelation
 
@@ -83,5 +82,20 @@ and trend behaviour in this data set. No seasonality was captured from the absol
 
 ![euromilhoes-timeline_acf.pt.png](euromilhoes-timeline_acf.pt.png)
 
-<!-- # Check: [modelling_with-AR_models](https://moodle2324.up.pt/mod/folder/view.php?id=81448) -->
-<!-- ChatGPT: plots: to reveal patterns, trends -->
+### Moving average
+
+A moving average plotted in a window of 5% of the total do not show a significant trend, but
+a decrease on the volume of bids can be seen. A trend can be considered, after all:
+
+![euromilhoes-timeline_moving_avgs.pt.png](euromilhoes-timeline_moving_avgs.pt.png)
+
+
+## Conclusion
+
+In this dataset, a significant seasonality trend is not prominently observed.
+However, the data hints at a noteworthy decline in bids for Portugal's Euromilhões.
+Remarkably, the sporadic spikes observed in February 2018, October 2019,
+and February 2021 have not recurred.
+
+The onset of this diminishing trend aligns with the emergence of the Covid-19 pandemic,
+a period marked by widespread social isolation and restricted mobility.
