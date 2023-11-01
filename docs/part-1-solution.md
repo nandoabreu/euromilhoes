@@ -2,11 +2,13 @@
 This paper responds to the course project for the Time Series and Forecast course,
 ministered by the Professor Maria Eduarda Silva, for UP - Universidade do Porto.
 
+
 ## Assignment
 
 Choose a time series of your interest and write a concise report
 (pdf, max 6 pages, including appendices) describing
 the exploratory analysis of the time series.
+
 
 ## The time series
 ### Introduction
@@ -99,3 +101,13 @@ and February 2021 have not recurred.
 
 The onset of this diminishing trend aligns with the emergence of the Covid-19 pandemic,
 a period marked by widespread social isolation and restricted mobility.
+
+
+<br />
+
+#### References and links
+
+This project is published in [this GitHub link](https://github.com/nandoabreu/euromilhoes),
+together with all code to scrap data, generate statistical data and create plots. \
+All data was fetched from
+[Portugal's official Euromilhões provider](https://www.jogossantacasa.pt/web/SCCartazResult/euroMilhoes).
