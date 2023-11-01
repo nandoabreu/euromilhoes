@@ -1,12 +1,18 @@
 #!/usr/bin/env python3
+from datetime import datetime as _dt
 from os.path import exists, getmtime
 from sys import modules
 
 import seaborn as sns
 
 from app import config as cfg
-from app.load_data import load_data
-from app.analyse_data import describe
+from app.loader import MainDataFrame
+from app.analyse_data import (
+    describe,
+    normalize_data,
+    is_stationary,
+    set_moving_avg,
+)
 # noinspection PyUnresolvedReferences
 from app.plots import (
     timeline,
@@ -15,16 +21,33 @@ from app.plots import (
     draws,
     timeline_unusual,
     timeline_acf,
+    timeline_change_points,
+    timeline_moving_avgs,
 )
 
-if __name__ == '__main__':
-    since_date: str = cfg.DATA_SINCE_ISO_DATE
-    until_date = cfg.DATA_UNTIL_ISO_DATE
-    df = load_data(area='pt', since_date=since_date, until_date=until_date)
+
+def main():
+    since_date = _dt.strptime(cfg.DATA_SINCE_ISO_DATE, '%Y-%m-%d')
+    until_date = dt.strptime(cfg.DATA_UNTIL_ISO_DATE, '%Y-%m-%d')
+    area = 'pt'
+
+    m = MainDataFrame()
+    m.load_df(
+        cfg.DATA_SOURCE_FILE.format(area),
+        date_column_in_source='draw_date', since_date=since_date, until_date=until_date
+    )
+
+    df = m.get_df()
+    default_window_size = int(len(df) * .05)
+
+    # Normalize bids and add moving averages
+    df = normalize_data(df, column='bids')
+    df = set_moving_avg(df, column='bids', window_size=default_window_size)
 
     # Describe the data
     describe(df)
 
+    #
     # Trigger plots creation or recriation
 
     area_code = 'pt'
@@ -50,6 +73,12 @@ if __name__ == '__main__':
             kwargs = dict(df=df, area=area, save_to=img_file)
             if 'colors' in module.plot.__code__.co_varnames:
                 kwargs['colors'] = year_colors
+            if 'window_size' in module.plot.__code__.co_varnames:
+                kwargs['window_size'] = window_size
 
             module.plot(**kwargs)
             print(f'{mname} plot created')
+
+
+if __name__ == '__main__':
+    main()
